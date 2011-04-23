@@ -1,17 +1,19 @@
 /*
-* Nothing with no license.
-* Author: http://guileen.github.com/nothing.js
-*/
+ * Nothing with no license.
+ * Author: http://guileen.github.com/nothing.js
+ */
 
 // selector. Do you really need a very complex selector
-function $(selector) {
-  if (selector.indexOf('.') > 0)
-    return document.getElementsByClassName(selector);
-  else if (selector.indexOf('#') > 0)
-    return document.getElementById(selector);
+function select(selector) {
+  selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
+  if (selector.charAt(0) == '.')
+    return document.getElementsByClassName(selector.substring(1));
+  else if (selector.charAt(0) == '#')
+    return document.getElementById(selector.substring(1));
   else
     return document.getElementsByTagName(selector);
 }
+$ = $ || select;
 
 // coordinate.
 function getAbsolutOffset(el) {
@@ -40,7 +42,7 @@ function getAbsolutOffset(el) {
 
 // calss. Nothing needed except has, add, remove.
 function hasClass(el, cls) {
-  return new RegExp('\\b' + cls + '\\b').test(el.className);
+  return new RegExp('(^|\\s)' + cls + '(\\s|$)').test(el.className);
 }
 
 function addClass(el, cls) {
@@ -48,7 +50,7 @@ function addClass(el, cls) {
 }
 
 function removeClass(el, cls) {
-  el.className = el.className.replace(new RegExp('\\b' + cls + '\\b'), '');
+  el.className = el.className.replace(new RegExp('(^|\\s)' + cls + '(\\s|$)'), ' ');
 }
 
 function toggleClass(el, cls) {
@@ -92,7 +94,7 @@ function buildQueryString(obj) {
 
 // Form serialize
 function formSerialize(form) {
-  var i = 0, els = form.elements, el, n, t, result;
+  var i = 0, els = form.elements, result={}, el, n, t;
   for (; i < els.length; i++) {
     el = els[i];
     n = el.name, t = el.type;
@@ -100,7 +102,7 @@ function formSerialize(form) {
     if (!n || el.disabled || t == 'reset' || t == 'button' ||
       (t == 'checkbox' || t == 'radio') && !el.checked ||
       (t == 'submit' || t == 'image') && el.form && el.form.clk != el ||
-      tag == 'select' && el.selectedIndex == -1) {
+      el.tagName.toLowerCase() == 'select' && el.selectedIndex == -1) {
       continue;
     }
     // select-one is supported, but select-multi maybe not supported
@@ -109,7 +111,7 @@ function formSerialize(form) {
   return result;
 }
 
-function formSerializeFrom(form, obj) {
+function formDeserialize(form, obj) {
   form.reset();
   var i = 0, els = form.elements, el, n, t, result;
   for (; i < els.length; i++) {
@@ -120,7 +122,7 @@ function formSerializeFrom(form, obj) {
     if (!n || !obj[n])
       continue;
 
-    if (t == 'radio'|| t == 'checkbox') {
+    if (t == 'radio' || t == 'checkbox') {
       el.checked = !! obj[n];
     }else if (t == 'select-one') {
       //"select-multi": //won't supporte
@@ -136,21 +138,21 @@ function formSerializeFrom(form, obj) {
   }
 }
 
-/* 
-* AJAX
-* httpRequest
-*
-* @param url or options
-*       options
-*           method
-*           url
-*           query
-*           data data post to server
-*           type the type of data, can be 'json' or 'form', default is 'form'
-*           headers request headers
-* @param callback
-*           function(err, data, xhr)
-*/
+/*
+ * AJAX
+ * httpRequest
+ *
+ * @param url or options
+ *       options
+ *           method
+ *           url
+ *           query
+ *           data data post to server
+ *           type the type of data, can be 'json' or 'form', default is 'form'
+ *           headers request headers
+ * @param callback
+ *           function(err, data, xhr)
+ */
 function httpRequest(options, callback) {
   var m, u, q, d, h, t, k;
   if (typeof options === 'string') {
@@ -249,6 +251,5 @@ console.info = console.info || function() {};
 // Validation
 function validateEmail(email) 
 {
-  var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-  return re.test(email);
+  return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(email);
 }
