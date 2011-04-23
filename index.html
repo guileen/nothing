@@ -1,1 +1,75 @@
-My Page
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>I want Nothing of javascript.</title>
+    <style>
+      html, body, div, form, fieldset, legend, label
+      {
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        font-family: Arial;
+        background: black;
+      }
+      a{
+        text-decoration:none;
+      }
+      #block{
+        font-size: 36px;
+        text-align: center;
+        margin: 20px;
+        color: white;
+      }
+      #block a, #block a:visited {
+        color: yellow;
+      }
+      #block a:hover {
+        color: #ff00ff;
+      }
+      .ribbon {
+        background-color: #a00;
+        overflow: hidden;
+        /* top left corner */
+        position: absolute;
+        /* left: -3em; */
+        right: -3em;
+        top: 2.5em;
+        /* 45 deg ccw rotation */
+        /*
+        -moz-transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        */
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        /* shadow */
+        -moz-box-shadow: 0 0 1em #888;
+        -webkit-box-shadow: 0 0 1em #888;
+      }
+      .ribbon a {
+        border: 1px solid #faa;
+        color: #fff;
+        display: block;
+        font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+        margin: 0.05em 0 0.075em 0;
+        padding: 0.5em 3.5em;
+        text-align: center;
+        text-decoration: none;
+        /* shadow */
+        text-shadow: 0 0 0.5em #444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ribbon">
+      <a href="https://github.com/guileen/nothing">Fork me on GitHub!</a>
+    </div>
+    <div id="block">
+      <h1>Nothing.js</h1>
+      <p>You don't need powerful javascripts.</p>
+      <p style="font-size: 80px">You need <a href="http://github.com/guileen/nothing/">NOTHING</a></p>
+      <p>but <a href="http://github.com/guileen/nothing/">255 lines</a> codes</p>
+      <p style="font-size: 24px"><a href="test.html">UnitTests</a></p>
+    </div>
+  </body>
+</html>
