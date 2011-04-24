@@ -2,17 +2,27 @@
  * Nothing with no license.
  * Author: http://guileen.github.com/nothing.js
  */
-
-// selector. Do you really need a very complex selector
-function select(selector) {
-  selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
-  if (selector.charAt(0) == '.')
-    return document.getElementsByClassName(selector.substring(1));
-  if (selector.charAt(0) == '#')
-    return document.getElementById(selector.substring(1));
-  return document.getElementsByTagName(selector);
+if (document.querySelector) {
+  function $ (selector, el) {
+    return (el||document).querySelector(selector);
+  }
+  function $$ (selector, el) {
+    return (el||document).querySelectorAll(selector);
+  }
+} else {
+  // selector. Do you really need a very complex selector
+  function $$ (selector, el) {
+    selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
+    if (selector.charAt(0) == '.')
+      return (el || document).getElementsByClassName(selector.substring(1));
+    if (selector.charAt(0) == '#')
+      return [document.getElementById(selector.substring(1))];
+    return (el || document).getElementsByTagName(selector);
+  }
+  function $ (selector, el) {
+    return $$ (selector, el)[0];
+  }
 }
-$ = $ || select;
 
 // coordinate.
 function getAbsolutOffset(el) {
@@ -245,7 +255,6 @@ console.info = console.info || function() {};
 // Math.floor(obj)  is toInteger
 
 // Validation
-function validateEmail(email) 
-{
+function validateEmail(email) {
   return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(email);
 }
