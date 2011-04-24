@@ -2,18 +2,27 @@
  * Nothing with no license.
  * Author: http://guileen.github.com/nothing.js
  */
-
-// selector. Do you really need a very complex selector
-function select(selector) {
-  selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
-  if (selector.charAt(0) == '.')
-    return document.getElementsByClassName(selector.substring(1));
-  else if (selector.charAt(0) == '#')
-    return document.getElementById(selector.substring(1));
-  else
-    return document.getElementsByTagName(selector);
+if (document.querySelector) {
+  function $ (selector, el) {
+    return (el||document).querySelector(selector);
+  }
+  function $$ (selector, el) {
+    return (el||document).querySelectorAll(selector);
+  }
+} else {
+  // selector. Do you really need a very complex selector
+  function $$ (selector, el) {
+    selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
+    if (selector.charAt(0) == '.')
+      return (el || document).getElementsByClassName(selector.substring(1));
+    if (selector.charAt(0) == '#')
+      return [document.getElementById(selector.substring(1))];
+    return (el || document).getElementsByTagName(selector);
+  }
+  function $ (selector, el) {
+    return $$ (selector, el)[0];
+  }
 }
-$ = $ || select;
 
 // coordinate.
 function getAbsolutOffset(el) {
@@ -154,7 +163,7 @@ function formDeserialize(form, obj) {
  *           function(err, data, xhr)
  */
 function httpRequest(options, callback) {
-  var m, u, q, d, h, t, k;
+  var m, u, q, d, h, t, k, err, reply;
   if (typeof options === 'string') {
     u = options;
   } else {
@@ -171,38 +180,35 @@ function httpRequest(options, callback) {
   if (q) {
     if (typeof q != 'string')
       q = buildQueryString(q);
-    url += url.indexOf('?') >= 0 ? '&' : '?' + q;
+    u += u.indexOf('?') >= 0 ? '&' : '?' + q;
   }
 
   var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
-      var t = xhr.getResponseHeader('content-type'), err, data;
-      if (t === 'application/xml')
-        data = xhr.responseXML;
-      else if (t === 'application/json')
-        data = JSON.parse(xhr.responseText);
+      if (xhr.responseXML)
+        reply = xhr.responseXML;
+      else if (/\bjson\b/.test(xhr.getResponseHeader('content-type')))
+        reply = JSON.parse(xhr.responseText);
       else
-        data = xhr.responseText;
+        reply = xhr.responseText;
 
-      if (xhr.status < 200) {
+      if (xhr.status < 200 || xhr.status >= 300) {
         // 1xx informational response;
-        return;
-      } else if (xhr.status >= 300) {
         // 3xx Redirection
         // 4xx Client error
         // 5xx Server error
         err = xhr.status;
       }
       // else 2xx successful response;
-      callback(err, data, xhr);
+      callback(err, reply, xhr);
     }
   };
 
-  xhr.open(m, url, true);
+  xhr.open(m, u, true);
   var hasContentType = false;
-  for (var k in headers) {
-    v = headers[k];
+  for (var k in h) {
+    v = h[k];
     xhr.setRequestHeader(k, v);
     if (k.toLowerCase() === 'content-type')
       hasContentType = true;
@@ -217,8 +223,8 @@ function httpRequest(options, callback) {
     }
     if (!hasContentType)
       xhr.setRequestHeader('Content-Type', t);
-    xhr.send(d);
   }
+  xhr.send(d);
 }
 
 // OO. Nothing needed except this.
@@ -249,7 +255,6 @@ console.info = console.info || function() {};
 // Math.floor(obj)  is toInteger
 
 // Validation
-function validateEmail(email) 
-{
+function validateEmail(email) {
   return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(email);
 }
