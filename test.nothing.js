@@ -21,12 +21,45 @@ $(document).ready(function(){
         addClass(el, 'cls2');
         addClass(el, 'cls3');
         equals(el.className.trim(), 'cls1 cls2 cls3' )
+    });
+
+    test('removeClass', function() {
+        var el = select('#username');
+        el.className = 'cls1 cls2 cls3'
         removeClass(el, 'cls2');
         equals(el.className.trim(), 'cls1 cls3');
         removeClass(el, 'cls1');
         equals(el.className.trim(), 'cls3');
         removeClass(el, 'cls3');
         equals(el.className.trim(), '');
+    });
+
+    test('hasClass', function() {
+        var el = select('#username');
+        el.className = 'cls1 cls2 cls3'
+        ok(hasClass(el, 'cls1'));
+        ok(hasClass(el, 'cls2'));
+        ok(hasClass(el, 'cls3'));
+        ok(!hasClass(el, 'cls4'));
+    });
+
+    test('toggleClass', function() {
+        var el = select('#username');
+        el.className = 'cls1 cls2 cls3'
+        toggleClass(el, 'cls1');
+        ok(!hasClass(el, 'cls1'))
+        toggleClass(el, 'cls1');
+        ok(hasClass(el, 'cls1'))
+
+        toggleClass(el, 'cls2');
+        ok(!hasClass(el, 'cls2'))
+        toggleClass(el, 'cls2');
+        ok(hasClass(el, 'cls2'))
+
+        toggleClass(el, 'cls2');
+        ok(!hasClass(el, 'cls2'))
+        toggleClass(el, 'cls2');
+        ok(hasClass(el, 'cls2'))
     });
 
     module('QueryString')
@@ -66,10 +99,16 @@ $(document).ready(function(){
     });
 
     module('Debug')
-    test('Debug', function(){
+    test('console.log', function(){
         console.log('log');
+    });
+    test('console.info', function(){
         console.info('info');
+    });
+    test('console.warn', function(){
         console.warn('warn');
+    });
+    test('console.error', function(){
         console.error('error');
     });
 
