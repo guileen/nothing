@@ -8,10 +8,9 @@ function select(selector) {
   selector = selector.replace(/(^\s+|\s+$)/g, '');//selector.trim();
   if (selector.charAt(0) == '.')
     return document.getElementsByClassName(selector.substring(1));
-  else if (selector.charAt(0) == '#')
+  if (selector.charAt(0) == '#')
     return document.getElementById(selector.substring(1));
-  else
-    return document.getElementsByTagName(selector);
+  return document.getElementsByTagName(selector);
 }
 $ = $ || select;
 
