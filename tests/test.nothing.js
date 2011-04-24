@@ -1,9 +1,9 @@
-$(document).ready(function(){
+jQuery(document).ready(function(){
 
     module("DOM");
     test("select", function() {
-        equals('username', select('#username').value, 'select(#username).value should be username');
-        equals(select('.radio').length, 4, 'should be 4 .text');
+        equals('username', $('#username').value, '$(#username).value should be username');
+        equals($$('.radio').length, 4, 'should be 4 .text');
     });
 
     test('createHTMLElement', function() {
@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     module("CSS");
     test('addClass', function() {
-        var el = select('#username')
+        var el = $('#username')
         addClass(el, 'cls1');
         addClass(el, 'cls2');
         addClass(el, 'cls3');
@@ -24,7 +24,7 @@ $(document).ready(function(){
     });
 
     test('removeClass', function() {
-        var el = select('#username');
+        var el = $('#username');
         el.className = 'cls1 cls2 cls3'
         removeClass(el, 'cls2');
         equals(el.className.trim(), 'cls1 cls3');
@@ -35,7 +35,7 @@ $(document).ready(function(){
     });
 
     test('hasClass', function() {
-        var el = select('#username');
+        var el = $('#username');
         el.className = 'cls1 cls2 cls3'
         ok(hasClass(el, 'cls1'));
         ok(hasClass(el, 'cls2'));
@@ -44,7 +44,7 @@ $(document).ready(function(){
     });
 
     test('toggleClass', function() {
-        var el = select('#username');
+        var el = $('#username');
         el.className = 'cls1 cls2 cls3'
         toggleClass(el, 'cls1');
         ok(!hasClass(el, 'cls1'))
@@ -75,7 +75,7 @@ $(document).ready(function(){
 
     module('FORM');
     test('formSerialize', function() {
-        var obj = formSerialize(select('#testform'));
+        var obj = formSerialize($('#testform'));
         equals('username', obj.username, 'error text value');
         equals('password', obj.password, 'error password value');
         equals('male', obj.gender, 'error radio value');
@@ -87,11 +87,11 @@ $(document).ready(function(){
           password : 'pass',
           gender : 'female'
         }
-        formDeserialize(select('#testform2'), obj);
-        equals(select('#username2').value, 'user');
-        equals(select('#password2').value, 'pass');
-        ok(select('#female2').checked);
-        ok(!select('#male2').checked);
+        formDeserialize($('#testform2'), obj);
+        equals($('#username2').value, 'user');
+        equals($('#password2').value, 'pass');
+        ok($('#female2').checked);
+        ok(!$('#male2').checked);
     });
 
     module('AJAX')
