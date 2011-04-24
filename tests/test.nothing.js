@@ -95,7 +95,46 @@ $(document).ready(function(){
     });
 
     module('AJAX')
-    test('httpRequest', function(){
+    test('httpRequest(url, fn)', function(){
+        /*
+        stop();
+        httpRequest('data.json', function(err, data){
+            equals(typeof data, 'object', 'typeof data should be json');
+            equals(data.name, 'guest', 'data.name should be');
+            start();
+        });
+        */
+        stop();
+        httpRequest('data.txt', function(err, data){
+            ok(!err, 'Should no err')
+            equals(typeof data, 'string', 'typeof data should be string');
+            equals(data.replace(/\s+$/,''), 'Hello nothing', 'data should be');
+            start();
+        });
+        stop();
+        httpRequest('blabla', function(err, data) {
+            equals(err, 404, 'err should be');
+            start();
+        });
+    });
+
+    test('httpRequest POST query', function(err, data){
+        stop();
+        httpRequest({
+            url: 'data.json',
+            query: {
+              key1: 'value1',
+              key2: 'value2'
+            },
+            data: {
+              name1: 'data1',
+              name2: 'data2'
+            },
+            type: 'json'
+          },function(err, data){
+            ok(data, 'has data');
+            start();
+        });
     });
 
     module('Debug')
