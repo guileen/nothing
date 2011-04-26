@@ -1,24 +1,21 @@
-Introduction
+简介
 ========
-Nothing is a javascipt library and a generate tools help you to create 0-dependencies javascript code.
+Nothing是一个JS库，也是一个生成工具，可以帮助你生成0依赖的代码。
 
-Install
+安装
 ========
+你需要先下载 [closure-compiler](http://code.google.com/p/closure-compiler/downloads/list)。
 
-    >npm install nothing
-
-Before run nothing, you need download [closure-compiler](http://code.google.com/p/closure-compiler/downloads/list) first.
-
-Now you should define environ variant.
+然后定义`CC_HOME`环境变量
 
     >export CC_HOME=/path/to/closure-compiler
 
-Or you can put compiler.jar to tools folder.
+或者将 compiler.jar 复制到 tools 目录.
 
-Usage
+使用
 ========
 
-Write script code. just like tests/demo.js :
+编写脚本，如tests/demo.js:
 
     ```javascipt
     httpRequest('/account/profile', { query: {username: 'jason'} }, 
@@ -32,15 +29,16 @@ Write script code. just like tests/demo.js :
     );
     ```
 
-All of httpRequest, addClass, $, formDeserialize are functions defined in client/nothing.js
+httpRequest, addClass, $, formDeserialize 都是 nothing.js 中定义的方法，你可以在 client/nothing.js
+中看到这些方法的定义。
 
-Now you can use nothing generate you 0-dependencies code.
+现在你可以输入以下命令来获得0依赖的代码
 
-    >nothing tests/demo.js
+    nothing tests/demo.js
 
-Is it cool? Do you want to read clearly about the output code? you can pass `--pretty` or `-p` flag:
+是不是很酷呢？想看清楚所获得的代码结构吗？你可以使用 --pretty 参数，也可以简略为 -p :
 
-    >nothing -p tests/demo.js
+    nothing -p tests/demo.js
 
 * Dom
   * selector

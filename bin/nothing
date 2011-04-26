@@ -1,0 +1,110 @@
+#! /usr/bin/env node
+// vim: ft=javascript
+
+global.sys = require(/^v0\.[012]/.test(process.version) ? "sys" : "util");
+
+var nothing = require('../lib'),
+    fs = require('fs'),
+    path = require('path');
+
+var options = {
+  beautify: false,
+  level: 2,
+  defines: {},
+  output: true,
+};
+
+
+var args = Array.prototype.slice.call(process.argv, 2);
+var filenames = [];
+var define;
+
+out: while (args.length > 0) {
+  var v = args.shift();
+  switch (v) {
+  case "-l":
+  case "--level":
+    options.level = args.shift();
+    break;
+  case "-b":
+  case "-p":
+  case "--beautify":
+  case "--pretty":
+    options.beautify = true;
+    break;
+  case "-D":
+  case "--D":
+  case "--define":
+    define = args.shift().split('=');
+    options.defines[define[0]] = define[1];
+    break;
+  case "-o":
+  case "--output":
+    options.output = args.shift();
+    break;
+  case "-h":
+  case "--help":
+    options.help = true;
+    break;
+  default:
+    filenames.push(v);
+    break out;
+  }
+}
+
+function usage(){
+  console.log(
+    'nothing [-l <level>] [-p] [-D <name>[=<val>] ...] [-o <distfile>] <srcfile1> [srcfile2... ]\n' + 
+    '\n\tthis is a generate tool for nothing.js, base on closure_compiler.\n\n' +
+    '\t-l --level  level, 0, 1, 2, default is 2. alias ADVANCED_OPTIMIZATIONS in closure_compiler.\n' +
+    '\t-p --pretty pretty the code.\n' +
+    '\t-D --define overwrite defined variables.\n' +
+    '\t-o --output output file, default is stdout.\n' +
+    '\n\n' +
+    'examples: \n' +
+    '\tnothing my.js\n' +
+    '\tnothing -l 1 -D DEBUG=false my.js\n'
+  );
+}
+
+function output(text) {
+  var out;
+  if (options.output === true) {
+    out = process.stdout;
+  } else {
+    out = fs.createWriteStream(options.output, {
+        flags: "w",
+        encoding: "utf8",
+        mode: 0644
+    });
+  }
+  out.write(text);
+  if (options.output !== true) {
+    out.end();
+  }
+};
+
+if(options.help){
+  usage();
+} else {
+
+  options.cc_home = process.env['CC_HOME']
+  if(!options.cc_home){
+    options.cc_home= path.normalize(__dirname + "/../tools/")
+  }
+
+  var code = '';
+
+  for(var i = 0;i<filenames.length;i++){
+    code += '\n;\n'
+    code += fs.readFileSync(filenames[i]);
+  }
+
+  nothing.nothing(code, options, function(err, result){
+      if(err){
+        sys.debug(err.stack);
+      }else{
+        output(result);
+      }
+  });
+}

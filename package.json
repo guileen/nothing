@@ -1,0 +1,24 @@
+{
+  "author": "Gui Lin <guileen@gmail.com>",
+  "name": "nothing",
+  "description": "Make 0-dependencies javascript code.",
+  "version": "0.1.0",
+  "homepage": "http://guileen.github.com/nothing/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guileen/nothing.git"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "uglify-js": "*"
+  },
+  "devDependencies": {},
+  "bin"  : {
+    "nothing": "./bin/nothing"
+  }
+}
