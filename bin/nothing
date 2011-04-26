@@ -4,13 +4,14 @@
 global.sys = require(/^v0\.[012]/.test(process.version) ? "sys" : "util");
 
 var nothing = require('../lib'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 var options = {
   beautify: false,
   level: 2,
   defines: {},
-  output: true
+  output: true,
 };
 
 
@@ -86,6 +87,12 @@ function output(text) {
 if(options.help){
   usage();
 } else {
+
+  options.cc_home = process.env['CC_HOME']
+  if(!options.cc_home){
+    options.cc_home= path.normalize(__dirname + "/../tools/")
+  }
+
   var code = '';
 
   for(var i = 0;i<filenames.length;i++){
