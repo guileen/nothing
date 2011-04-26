@@ -41,13 +41,18 @@ function getAbsolutOffset(el) {
 }
 
 // createHTMLElement
-(function() {
-    var dummy = document.createElement('div');
-    window.createHTMLElement = function(html) {
-      dummy.innerHTML = html;
-      return dummy.firstChild;
-    }
-})();
+var __nothing_dummyFregment;
+function createHTMLElement(html, el) {
+  if(!__nothing_dummyFregment){
+    __nothing_dummyFregment = document.createElement();
+  }
+  __nothing_dummyFregment.innerHTML = html;
+  var result = __nothing_dummyFregment.firstChild;
+  if(el){
+    el.appendChild(result);
+  }
+  return result;
+}
 
 // calss. Nothing needed except has, add, remove.
 function hasClass(el, cls) {
@@ -229,7 +234,7 @@ function httpRequest(options, callback) {
 
 // OO. Nothing needed except this.
 // Dont touch Object.prototype, it's a nightmair of for(var k in obj)
-Object.extend = function(a, b) {
+function extendObject(a, b) {
   if (a && b) {
     for (var key in b) {
       a[key] = b[key];
@@ -239,7 +244,7 @@ Object.extend = function(a, b) {
 };
 
 // debug. I do nothing, just use firebug or chrome.
-if (!window.console) console = {};
+var console = window.console || {};
 console.log = console.log || function() {};
 console.warn = console.warn || function() {};
 console.error = console.error || function() {};
