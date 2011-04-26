@@ -16,8 +16,7 @@
         text-decoration:none;
       }
       #block{
-        font-size: 36px;
-        text-align: center;
+        font-size: 16px;
         margin: 20px;
         color: white;
       }
@@ -61,7 +60,6 @@
       .prettyprint {
         background: #ccc;
         text-align: left;
-        font-size: 24px;
       }
     </style>
     <link href="static/prettify.css" type="text/css" rel="stylesheet" />
@@ -72,20 +70,33 @@
       <a href="https://github.com/guileen/nothing">Fork me on GitHub!</a>
     </div>
     <div id="block">
-      <h1>Depends <a href="http://github.com/guileen/nothing/">Nothing</a></h1>
-
-      <h3><font color="gray">$</font> vim demo.js</h3>
+      <div style="font-size:24px;">
+        <h1>Depends <a href="http://github.com/guileen/nothing/">Nothing</a></h1>
+      </div>
+      <p><font color="gray">$</font> vim demo.js</p>
       <pre class="prettyprint">
-var el = document.getElementById('foo');
-toggleClass(el, 'fee');
+ var el = document.getElementById('foo');
+ toggleClass(el, 'fee');
       </pre>
-      <h3><font color="gray">$</font> <a href="http://github.com/guileen/nothing/">nothing</a> demo.js</h3>
+      <p><font color="gray">$</font> <a href="http://github.com/guileen/nothing/">nothing</a> demo.js</p>
       <pre class="prettyprint">
-var a = document.getElementById("foo");
-/(^|\s)fee(\s|$)/.test(a.className) ?
-a.className = a.className.replace(/(^|\s)fee(\s|$)/, " ") :
-/(^|\s)fee(\s|$)/.test(a.className) || (a.className += " fee");
+ var a = document.getElementById("foo");
+ /(^|\s)fee(\s|$)/.test(a.className) ?
+ a.className = a.className.replace(/(^|\s)fee(\s|$)/, " ") :
+ /(^|\s)fee(\s|$)/.test(a.className) || (a.className += " fee");
       </pre>
+      <h2>Integrate with express</h2>
+      <pre class="prettyprint">
+ app.use(require('nothing').middleware({src:__dirname+'/public'}));
+      </pre>
+      It will automaticly compile .njs file to .js.
+      <h2>Install</h2>
+      <div>
+      <p><font color="gray"></font> download <a href="http://code.google.com/p/closure-compiler/downloads/list">closure-compiler</a></p>
+      <p><font color="gray">$</font> export CC_HOME=/path/to/closure-compiler</p>
+      <p><font color="gray">$</font> npm install nothing</p>
+      </div>
+      <h2>Functions</h2>
       <p style="font-size: 24px"><a href="client/tests/test.html">Check the UnitTests</a></p>
       <p style="font-size: 18px"><small>Nothing.js powered by <a href="http://nodejs.org">nodejs</a> and <a href="http://code.google.com/p/closure-compiler/">closure-compiler</a></small></p>
     </div>
