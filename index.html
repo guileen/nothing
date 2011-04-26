@@ -58,18 +58,35 @@
         /* shadow */
         text-shadow: 0 0 0.5em #444;
       }
+      .prettyprint {
+        background: #ccc;
+        text-align: left;
+        font-size: 24px;
+      }
     </style>
+    <link href="static/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="static/prettify.js"></script>
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div class="ribbon">
       <a href="https://github.com/guileen/nothing">Fork me on GitHub!</a>
     </div>
     <div id="block">
-      <h1>Nothing.js</h1>
-      <p>You don't need powerful javascripts.</p>
-      <p style="font-size: 80px">You need <a href="http://github.com/guileen/nothing/">NOTHING</a></p>
-      <p>but <a href="http://github.com/guileen/nothing/">260 lines</a> codes</p>
-      <p style="font-size: 24px"><a href="tests/test.html">Check the UnitTests</a></p>
+      <h1>Depends <a href="http://github.com/guileen/nothing/">Nothing</a></h1>
+
+      <h3><font color="gray">$</font> vim demo.js</h3>
+      <pre class="prettyprint">
+var el = document.getElementById('foo');
+toggleClass(el, 'fee');
+      </pre>
+      <h3><font color="gray">$</font> nothing demo.js</h3>
+      <pre class="prettyprint">
+var a = document.getElementById("foo");
+/(^|\s)fee(\s|$)/.test(a.className) ?
+a.className = a.className.replace(/(^|\s)fee(\s|$)/, " ") :
+/(^|\s)fee(\s|$)/.test(a.className) || (a.className += " fee");
+      </pre>
+      <p style="font-size: 24px"><a href="client/tests/test.html">Check the UnitTests</a></p>
     </div>
   </body>
 </html>
