@@ -1,8 +1,6 @@
-You want lightweight? small? tiny? nano? No, you want nothing.
+Put compiler.jar and externs.zip to your tools folder.
 
-I hope one day this project can goes to nothing, so I named it nothing.
-
-All the codes of nothing.js include comments are about 256 lines.
+Nothing is a javascipt library and a generate tools help you create zero dependencies javascript code.
 
 * Dom
   * selector
