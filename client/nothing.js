@@ -1,6 +1,6 @@
 /*
  * Nothing with no license.
- * Author: http://guileen.github.com/nothing.js
+ * Author: guileen@gmail.com
  */
 if (document.querySelector) {
   function $ (selector, el) {
