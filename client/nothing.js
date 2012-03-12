@@ -1,6 +1,7 @@
 /*
  * Nothing with no license.
- * Author: guileen@gmail.com
+ * Author: Gui Lin
+ * guileen AT gmail DOT com
  */
 if (document.querySelector) {
   function $ (selector, el) {
